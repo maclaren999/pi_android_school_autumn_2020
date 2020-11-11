@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pi week 1</string>
+    <string name="text_1">Отримано</string>
+    <string name="choose_button_text">ОБРАТИ</string>
+    <string name="text_2">Статичний текст</string>
+    <string name="text_3">Натисніть \"Обрати\"</string>
+    <string name="share_button_text">ПОДІЛИТИСЯ</string>
+    <string name="share_text_dialog">Поділитися з: </string>
+</resources>

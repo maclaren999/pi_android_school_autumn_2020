@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pi week 1</string>
+    <string name="text_1">Received</string>
+    <string name="choose_button_text">CHOOSE</string>
+    <string name="text_2">Static text</string>
+    <string name="text_3">tap \"CHOOSE\"</string>
+    <string name="share_button_text">SHARE</string>
+    <string name="share_text_dialog">Share text with: </string>
 </resources>
