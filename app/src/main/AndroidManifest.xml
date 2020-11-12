@@ -19,10 +19,6 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="text/plain"/>
             </intent-filter>
-<!--            <intent-filter>-->
-
-<!--            </intent-filter>-->
-
         </activity>
     </application>
 
