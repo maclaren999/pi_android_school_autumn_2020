@@ -6,4 +6,5 @@
     <string name="text_3">tap \"CHOOSE\"</string>
     <string name="share_button_text">SHARE</string>
     <string name="share_text_dialog">Share text with: </string>
+    <string name="make_your_choice_toast">Firstly make your choice!</string>
 </resources>

@@ -9,33 +9,27 @@ import android.widget.Toast
 import androidx.core.app.ShareCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
-val selectedItemKey = "selected"
-private val chooseRequestCode = 17
-private var selectedText: String = ""
+internal const val selectedItemKey = "selected"
+internal const val textPlainMimeType = "text/plain"
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        intent
         receiveIntent()
         initListeners()
+    }
+
+    companion object {
+        private const val chooseRequestCode = 17
+        private var selectedText: String = ""
     }
 
     private fun receiveIntent() {
         text1.text = intent.getStringExtra(Intent.EXTRA_TEXT)
         text1.visibility = View.VISIBLE
-
-//        val dataStr = intent.dataString
-//        val data = intent.data
-//        val action = intent.action
-//        val type = intent.type
-//        val extras = intent.extras
-//        val clipData = intent.clipData
-
-//        Log.d("TAG", extras.toString())
-//        Log.d("TAG", "$data \n$action \n$type")
-//        Toast.makeText(this, "$data \n$action \n$type", Toast.LENGTH_LONG).show()
     }
 
     private fun initListeners() {
@@ -50,16 +44,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startShareIntentBuilder() {
-        if (!selectedText.isNullOrBlank()) {
-            val typeMime = "text/plain"
+        if (!selectedText.isBlank()) {
             ShareCompat.IntentBuilder
                     .from(this)
-                    .setType(typeMime)
+                    .setType(textPlainMimeType)
                     .setChooserTitle(getString(R.string.share_text_dialog))
                     .setText(selectedText)
                     .startChooser()
         } else {
-            Toast.makeText(this, "Firstly make your choice!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.make_your_choice_toast), Toast.LENGTH_SHORT).show()
         }
     }
 

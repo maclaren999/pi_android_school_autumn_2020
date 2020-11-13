@@ -6,4 +6,5 @@
     <string name="text_3">Нажмите \"Выбрать\"</string>
     <string name="share_button_text">ПОДЕЛИТЬСЯ</string>
     <string name="share_text_dialog">Поделиться с: </string>
+    <string name="make_your_choice_toast">Сначала сделайте выбор!</string>
 </resources>
