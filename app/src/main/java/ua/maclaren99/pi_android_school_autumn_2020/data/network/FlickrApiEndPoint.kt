@@ -9,7 +9,7 @@ import retrofit2.http.Query
 import ua.maclaren99.pi_android_school_autumn_2020.data.model.FlickrRequestData
 
 interface FlickrApiEndPoint {
-    // Request method and URL specified in the annotation
+
     @GET("services/rest/")
     fun getPhotosSearch(
         @Query("method") method: String = "flickr.photos.search",

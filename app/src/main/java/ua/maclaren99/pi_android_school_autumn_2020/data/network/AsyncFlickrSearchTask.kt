@@ -27,7 +27,6 @@ class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
 
     override fun onPostExecute(result: List<String>?) {
         val textView = meTextView.get()
-        val mainContext = textView?.context?.applicationContext
         textView?.text = result?.joinToString(separator = "\n\n")
         textView?.movementMethod = ScrollingMovementMethod()
 
@@ -40,6 +39,13 @@ class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
 
     }
 
+    fun displayWebViewActivity(linksView: TextView, url: String) {
+        val intent = Intent(activity.applicationContext, WebViewActivity::class.java)
+            .putExtra(MainActivity.urlKey, url)
+        activity.startActivity(intent)
+    }
+
+//Alternative. WebView in MainActivity
     fun displayWebViewLayout(linksView: TextView, url: String) {
         val webView = activity.web_view
         webView.settings.loadWithOverviewMode = true
@@ -49,50 +55,5 @@ class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
         activity.web_view_layout.visibility = View.VISIBLE
     }
 
-    fun displayWebViewActivity(linksView: TextView, url: String) {
-        val intent = Intent(activity.applicationContext, WebViewActivity::class.java)
-            .putExtra(MainActivity.urlKey, url)
-        activity.startActivity(intent)
-    }
-
-
 }
-
-/*
-class SimpleAsyncTask internal constructor(tv: TextView) :
-    AsyncTask<Void?, Void?, String>() {
-    // The TextView where we will show results
-    private val mTextView: WeakReference<TextView>
-
-    override fun doInBackground(vararg voids: Void?): String {
-
-        // Generate a random number between 0 and 10.
-        val r = Random()
-        val n: Int = r.nextInt(11)
-
-        // Make the task take long enough that we have
-        // time to rotate the phone while it is running.
-        val s = n * 200
-
-        // Sleep for the random amount of time.
-        try {
-            Thread.sleep(s.toLong())
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-
-        // Return a String result.
-        return "Awake at last after sleeping for $s milliseconds!"
-    }
-
-    override fun onPostExecute(result: String) {
-        mTextView.get()!!.text = result
-    }
-
-    // Constructor that provides a reference to the TextView from the MainActivity
-    init {
-        mTextView = WeakReference(tv)
-    }
-}
-*/
 
