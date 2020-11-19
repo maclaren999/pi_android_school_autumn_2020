@@ -1,9 +1,62 @@
 package ua.maclaren99.pi_android_school_autumn_2020.data.network
 
+import android.content.Intent
 import android.os.AsyncTask
+import android.text.method.ScrollingMovementMethod
+import android.text.util.Linkify
+import android.view.View
 import android.widget.TextView
-import ua.maclaren99.pi_android_school_autumn_2020.data.execFlickrCall
+import kotlinx.android.synthetic.main.activity_main.*
+import me.saket.bettermovementmethod.BetterLinkMovementMethod
+import ua.maclaren99.pi_android_school_autumn_2020.MainActivity
+import ua.maclaren99.pi_android_school_autumn_2020.WebViewActivity
 import java.lang.ref.WeakReference
+
+
+class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
+    AsyncTask<String, Unit, List<String>?>() {
+
+    private var meTextView: WeakReference<TextView> = WeakReference(textView)
+
+    override fun doInBackground(vararg params: String?): List<String>? {
+        val result = params[0]?.let {
+            FlickrApiEndPoint.doSearchRequest(it, FlickrApiEndPoint())
+        }
+        return result
+    }
+
+    override fun onPostExecute(result: List<String>?) {
+        val textView = meTextView.get()
+        val mainContext = textView?.context?.applicationContext
+        textView?.text = result?.joinToString(separator = "\n\n")
+        textView?.movementMethod = ScrollingMovementMethod()
+
+        BetterLinkMovementMethod.linkify(Linkify.WEB_URLS, textView)
+            .setOnLinkClickListener { linksView, url ->
+                displayWebViewActivity(linksView, url)
+
+                return@setOnLinkClickListener true
+            }
+
+    }
+
+    fun displayWebViewLayout(linksView: TextView, url: String) {
+        val webView = activity.web_view
+        webView.settings.loadWithOverviewMode = true
+        webView.settings.useWideViewPort = true
+        webView.settings.setSupportZoom(true)
+        webView.loadUrl(url)
+        activity.web_view_layout.visibility = View.VISIBLE
+    }
+
+    fun displayWebViewActivity(linksView: TextView, url: String) {
+        val intent = Intent(activity.applicationContext, WebViewActivity::class.java)
+            .putExtra(MainActivity.urlKey, url)
+        activity.startActivity(intent)
+    }
+
+
+}
 
 /*
 class SimpleAsyncTask internal constructor(tv: TextView) :
@@ -11,13 +64,6 @@ class SimpleAsyncTask internal constructor(tv: TextView) :
     // The TextView where we will show results
     private val mTextView: WeakReference<TextView>
 
-    *//**
-     * Runs on the background thread.
-     *
-     * @param voids No parameters in this use case.
-     * @return Returns the string including the amount of time that
-     * the background thread slept.
-     *//*
     override fun doInBackground(vararg voids: Void?): String {
 
         // Generate a random number between 0 and 10.
@@ -39,10 +85,6 @@ class SimpleAsyncTask internal constructor(tv: TextView) :
         return "Awake at last after sleeping for $s milliseconds!"
     }
 
-    *//**
-     * Does something with the result on the UI thread; in this case
-     * updates the TextView.
-     *//*
     override fun onPostExecute(result: String) {
         mTextView.get()!!.text = result
     }
@@ -54,29 +96,3 @@ class SimpleAsyncTask internal constructor(tv: TextView) :
 }
 */
 
-class AsyncFlickrSearchTask(textView: TextView): AsyncTask<String, Unit, String>() {
-
-    private var meTextView: WeakReference<TextView> = WeakReference(textView)
-
-    /**
-     * Runs on the background thread.
-     *
-     * @param voids No parameters in this use case.
-     * @return Returns the string including the amount of time that
-     * the background thread slept.
-     */
-    override fun doInBackground(vararg params: String?): String {
-        val result = params[0]?.let { execFlickrCall(it) }
-        return result.toString()
-    }
-
-
-    /**
-     * Does something with the result on the UI thread; in this case
-     * updates the TextView.
-     */
-    override fun onPostExecute(result: String?) {
-        meTextView.get()?.text = result
-    }
-
-}

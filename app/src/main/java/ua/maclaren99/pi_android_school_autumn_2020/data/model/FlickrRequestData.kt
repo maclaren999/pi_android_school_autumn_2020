@@ -5,3 +5,4 @@ data class FlickrRequestData(
     val photos: Photos,
     val stat: String
 )
+

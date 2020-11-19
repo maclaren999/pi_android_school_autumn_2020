@@ -6,7 +6,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ua.maclaren99.pi_android_school_autumn_2020.data.TAG
 import ua.maclaren99.pi_android_school_autumn_2020.data.model.FlickrRequestData
 
 interface FlickrApiEndPoint {
@@ -21,30 +20,41 @@ interface FlickrApiEndPoint {
     ): Call<FlickrRequestData>
 
 
-    /*companion object {
+    companion object {
 
-        lateinit var retrofit: FlickrApiEndPoint
+        private var mInstant: FlickrApiEndPoint? = null
 
-        operator fun invoke(): FlickrApiEndPoint {
+        operator fun invoke(): FlickrApiEndPoint? {
 
-            val BASE_URL = "https://www.flickr.com/"
+            return if (mInstant != null){
+                mInstant
+            } else {
+                val BASE_URL = "https://www.flickr.com/"
 
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(FlickrApiEndPoint::class.java)
+                mInstant = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory
+                        .create())
+                    .build()
+                    .create(FlickrApiEndPoint::class.java)
+                mInstant
+            }
         }
 
 
-        fun executeRes(text: String): String{
-            //Test
-            val callFlickr = retrofit.getPhotosSearch(text = text)
-            val responce = callFlickr.execute().body()
+        fun doSearchRequest(text: String, instant: FlickrApiEndPoint?): List<String>? {
+            if (instant == null) throw UninitializedPropertyAccessException(message =
+            "FlickrApiEndPoint instant must be initialized by calling {@code FlickrApiEndPoint.invoke() }")
 
-            Log.d(TAG, responce.toString())
-            return responce.toString()
+            val size = "c"
+            val callFlickr = instant.getPhotosSearch(text = text)
+            val response = callFlickr.execute().body()
+            val urlList = response?.photos?.photo?.map {photo ->
+                 "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_${size}.jpg"
+            } ?: listOf<String>("No such photos :(")
+
+            return urlList
 
         }
-    }*/
+    }
 }

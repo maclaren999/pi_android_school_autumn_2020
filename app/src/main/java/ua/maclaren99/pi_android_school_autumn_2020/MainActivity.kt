@@ -1,31 +1,42 @@
 package ua.maclaren99.pi_android_school_autumn_2020
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import ua.maclaren99.pi_android_school_autumn_2020.data.initRetrofit
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.AsyncFlickrSearchTask
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val urlKey = "URL_KEY"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initRetrofit()
+
         search_button.setOnClickListener {
-            val requestStr = search_edit_text.text.toString()
+            asyncFlickrSearch()
+        }
+    }
 
-            AsyncFlickrSearchTask(result_text).execute(requestStr)
+    private fun asyncFlickrSearch() {
+        val requestStr = search_edit_text.text.toString()
+        if (!requestStr.isBlank())
+            AsyncFlickrSearchTask(result_text, this).execute(requestStr)
+    }
 
-//                test(requestStr)
+    override fun onBackPressed() {
+        if (!web_view_layout.isVisible) {
+            super.onBackPressed()
+        } else {
+            web_view_layout.visibility = View.GONE
+            web_view.loadUrl("about:blank")
         }
 
     }
-
-
 
 }
