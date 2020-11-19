@@ -15,6 +15,7 @@
     </style>
 
     <style name="Theme.Launcher" parent="Theme.PiWeek1">
+        <item name="android:windowBackground">@drawable/splash_activity_background</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
