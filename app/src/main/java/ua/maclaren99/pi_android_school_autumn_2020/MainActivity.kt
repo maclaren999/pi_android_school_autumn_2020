@@ -25,18 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun asyncFlickrSearch() {
         val requestStr = search_edit_text.text.toString()
-        if (!requestStr.isBlank())
+        if (requestStr.isNotBlank())
             AsyncFlickrSearchTask(result_text, this).execute(requestStr)
-    }
-
-    override fun onBackPressed() {
-        if (!web_view_layout.isVisible) {
-            super.onBackPressed()
-        } else {
-            web_view_layout.visibility = View.GONE
-            web_view.loadUrl("about:blank")
-        }
-
     }
 
 }

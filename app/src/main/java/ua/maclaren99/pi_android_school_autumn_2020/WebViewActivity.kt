@@ -10,11 +10,11 @@ class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
-        title = "WebView"
+        title = getString(R.string.web_view_activity_title)
 
         val imgUrl = intent.getStringExtra(MainActivity.urlKey)
-        web_view_2.settings.loadWithOverviewMode = true;
-        web_view_2.settings.useWideViewPort = true;
+        web_view_2.settings.loadWithOverviewMode = true
+        web_view_2.settings.useWideViewPort = true
         web_view_2.settings.setSupportZoom(true)
         web_view_2.loadUrl(imgUrl)
     }

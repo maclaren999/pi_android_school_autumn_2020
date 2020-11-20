@@ -21,8 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebViewActivity"/>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".WebViewActivity"
+            android:theme="@style/Theme.Launcher"
+            />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.PiWeek1" />
     </application>
 
 </manifest>

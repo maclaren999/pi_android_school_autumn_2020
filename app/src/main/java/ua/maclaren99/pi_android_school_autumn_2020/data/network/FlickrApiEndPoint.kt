@@ -13,7 +13,7 @@ interface FlickrApiEndPoint {
     @GET("services/rest/")
     fun getPhotosSearch(
         @Query("method") method: String = "flickr.photos.search",
-        @Query("api_key") api_key: String = "d076ff22ea8872ee9b49c0035dd95d4f",
+        @Query("api_key") api_key: String = API_KEY,
         @Query("text") text: String,
         @Query("format") format: String = "json",
         @Query("nojsoncallback") nojsoncallback: String = "1"
@@ -54,7 +54,6 @@ interface FlickrApiEndPoint {
             } ?: listOf<String>("No such photos :(")
 
             return urlList
-
         }
     }
 }
