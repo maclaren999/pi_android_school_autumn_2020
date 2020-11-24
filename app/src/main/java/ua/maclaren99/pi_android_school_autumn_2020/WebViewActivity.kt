@@ -3,7 +3,7 @@ package ua.maclaren99.pi_android_school_autumn_2020
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_web_view.*
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.AsyncFlickrSearchTask.Companion.urlKey
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.urlKey
 
 class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -21,6 +21,8 @@ interface FlickrApiEndPoint {
 
     companion object {
 
+        const val urlKey = "URL_KEY"
+
         private var mInstant: FlickrApiEndPoint? = null
 
         operator fun invoke(): FlickrApiEndPoint? {

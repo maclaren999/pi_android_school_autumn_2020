@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pi week 1</string>
+    <string name="app_name">Pi week 2</string>
     <string name="your_request_hint_edit_text">Your request…</string>
     <string name="search_button">SEARCH</string>
     <string name="web_view_activity_title">WebView</string>
