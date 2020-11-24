@@ -4,22 +4,19 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.text.method.ScrollingMovementMethod
 import android.text.util.Linkify
-import android.util.TypedValue
-import android.view.View
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import ua.maclaren99.pi_android_school_autumn_2020.MainActivity
-import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.WebViewActivity
 import java.lang.ref.WeakReference
-import java.lang.reflect.Type
 
 
-class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
+class AsyncFlickrSearchTask(textView: TextView) :
     AsyncTask<String, Unit, List<String>?>() {
 
-
+    companion object {
+        const val urlKey = "URL_KEY"
+    }
 
     private var meTextView: WeakReference<TextView> = WeakReference(textView)
 
@@ -28,6 +25,7 @@ class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
             FlickrApiEndPoint.doSearchRequest(it, FlickrApiEndPoint())
         }
         return result
+
     }
 
     override fun onPostExecute(result: List<String>?) {
@@ -47,7 +45,7 @@ class AsyncFlickrSearchTask(textView: TextView, val activity: MainActivity) :
     fun displayWebViewActivity(linksView: TextView, url: String) {
         val context = linksView.context
         val intent = Intent(context, WebViewActivity::class.java)
-            .putExtra(MainActivity.urlKey, url)
+            .putExtra(urlKey, url)
         context.startActivity(intent)
     }
 

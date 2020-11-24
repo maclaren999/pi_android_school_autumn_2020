@@ -1,6 +1,5 @@
 package ua.maclaren99.pi_android_school_autumn_2020.data.network
 
-import android.util.Log
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
