@@ -16,25 +16,30 @@ fun asyncFlickrSearchJob(
 ) = GlobalScope.launch(Dispatchers.Main) {
         //Requesting list of photos url
         val answerList = async(Dispatchers.IO) {
-            requestStr?.let {
+            requestStr.let {
                 FlickrApiEndPoint.doSearchRequest(it, FlickrApiEndPoint())
             }
         }.await()
-    
-        val textView = meTextView.get()
-        textView?.text = answerList?.joinToString(separator = "\n\n")
-        textView?.movementMethod = ScrollingMovementMethod()
 
-        BetterLinkMovementMethod.linkify(Linkify.WEB_URLS, textView)
-            .setOnLinkClickListener { linksView, url ->
-                displayWebViewActivity(linksView, url)
-
-                return@setOnLinkClickListener true
-            }
+    displayAnswer(meTextView, answerList)
 
 
+}
 
+private fun displayAnswer(
+    meTextView: WeakReference<TextView>,
+    answerList: List<String>?
+) {
+    val textView = meTextView.get()
+    textView?.text = answerList?.joinToString(separator = "\n\n")
+    textView?.movementMethod = ScrollingMovementMethod()
 
+    BetterLinkMovementMethod.linkify(Linkify.WEB_URLS, textView)
+        .setOnLinkClickListener { linksView, url ->
+            displayWebViewActivity(linksView, url)
+
+            return@setOnLinkClickListener true
+        }
 }
 
 fun displayWebViewActivity(linksView: TextView, url: String) {
