@@ -4,6 +4,7 @@ import android.content.Intent
 import android.text.method.ScrollingMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import me.saket.bettermovementmethod.BetterLinkMovementMethod
 import ua.maclaren99.pi_android_school_autumn_2020.WebViewActivity
@@ -12,7 +13,7 @@ import java.lang.ref.WeakReference
 
 fun asyncFlickrSearchJob(
     requestStr: String,
-    meTextView: WeakReference<TextView>
+    meTextView: WeakReference<RecyclerView>
 ) = GlobalScope.launch(Dispatchers.Main) {
         //Requesting list of photos url
         val answerList = async(Dispatchers.IO) {
