@@ -1,8 +1,9 @@
-package ua.maclaren99.pi_android_school_autumn_2020
+package ua.maclaren99.pi_android_school_autumn_2020.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_web_view.*
+import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.urlKey
 
 class WebViewActivity : AppCompatActivity() {

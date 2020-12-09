@@ -4,6 +4,8 @@ import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import ua.maclaren99.pi_android_school_autumn_2020.ui.PhotoUrlListAdapter
 
 fun Activity.hideKeyboard() {
 
@@ -18,5 +20,6 @@ fun Activity.hideKeyboard() {
                 view.windowToken, 0
             )
     }
-
 }
+
+//fun generateImgUrl()

@@ -1,4 +1,4 @@
-package ua.maclaren99.pi_android_school_autumn_2020
+package ua.maclaren99.pi_android_school_autumn_2020.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
