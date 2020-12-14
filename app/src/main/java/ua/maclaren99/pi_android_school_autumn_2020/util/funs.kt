@@ -13,6 +13,8 @@ val LOGGED_USER_KEY = "LOGGED_USER"
 val UNLOGGED_USER = ""
 lateinit var currentUser: User
 
+
+
 fun Activity.hideKeyboard() {
 
     val view: View? = this.currentFocus

@@ -1,5 +1,6 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -28,9 +29,13 @@ class MainActivity : AppCompatActivity() {
 
 
         initRecyclerView()
+        initButtons()
 
+
+    }
+
+    private fun initButtons() {
         search_button.setOnClickListener {
-
             hideKeyboard()
             val requestStr = search_edit_text.text.toString()
             if (requestStr.isNotBlank()) {
@@ -39,6 +44,12 @@ class MainActivity : AppCompatActivity() {
                 )
                 asyncFlickrSearchJob(requestStr/*, meRecyclerView*/)
             }
+            //TODO("Save to History")
+        }
+        favorites_button.setOnClickListener {
+            startActivity(
+                Intent(baseContext, FavoritesActivity::class.java)
+            )
         }
     }
 

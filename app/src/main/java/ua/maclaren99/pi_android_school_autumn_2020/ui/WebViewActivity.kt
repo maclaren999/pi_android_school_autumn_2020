@@ -1,5 +1,6 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -13,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_web_view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.AppDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
@@ -26,7 +26,7 @@ class WebViewActivity : AppCompatActivity() {
 
     companion object {
         lateinit var database: AppDatabase
-
+        lateinit var imgUrl: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         title = getString(R.string.web_view_activity_title)
 
-        val imgUrl = intent.getStringExtra(urlKey) ?: return
+        imgUrl = intent.getStringExtra(urlKey) ?: return
         web_view_2.settings.loadWithOverviewMode = true
         web_view_2.settings.useWideViewPort = true
         web_view_2.settings.setSupportZoom(true)
@@ -42,6 +42,16 @@ class WebViewActivity : AppCompatActivity() {
 
         database = AppDatabase.getDatabase(this)
 
+        initButtons()
+
+
+
+
+
+
+    }
+
+    private fun initButtons() {
         add_favorite_button.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 addPictureToFavorite(imgUrl)
@@ -51,14 +61,12 @@ class WebViewActivity : AppCompatActivity() {
                 )
             }
         }
-//
-//        val img = Glide.with(this)
-//            .load(imgUrl)
-//            .asBitmap()
-//            .toBytes()
-//            .
 
-
+        history_button.setOnClickListener {
+            startActivity(
+                Intent(baseContext, FavoritesActivity::class.java)
+            )
+        }
     }
 
     private suspend fun addPictureToFavorite(imgUrl: String) {
@@ -76,9 +84,7 @@ class WebViewActivity : AppCompatActivity() {
 
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     bitmap = resource
-
                     GlobalScope.launch(Dispatchers.IO) {
-
                         sendBitmapToRoom(resource, imgUrl)
                     }
                 }
