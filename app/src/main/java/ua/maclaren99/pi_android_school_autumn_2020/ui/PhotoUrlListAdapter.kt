@@ -19,18 +19,18 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
 
     private val photoItemList: MutableList<String> = mutableListOf<String>()
 
-    class PhotoUrlViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class PhotoUrlViewHolder(view: View) : RecyclerView.ViewHolder(view)/*, View.OnClickListener*/ {
         val urlTextView: TextView = view.url_text_view
         val photoPreview: ImageView = view.photo_preview
 
-        override fun onClick(v: View?) {
-            Log.d(TAG, "onClick")
-            //TODO("Do not get url from View")
-            v?.let {
-                displayWebViewActivity(it, it.url_text_view.text.toString())
-            }
-
-        }
+//        override fun onClick(v: View?) {
+//            Log.d(TAG, "onClick")
+//            //TODO("Do not get url from View")
+//            v?.let {
+//                displayWebViewActivity(it, it.url_text_view.text.toString())
+//            }
+//
+//        }
 
     }
 
@@ -42,13 +42,21 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
     override fun onBindViewHolder(holder: PhotoUrlViewHolder, position: Int) {
         holder.urlTextView.text = photoItemList[position]
 
+        holder.itemView.setOnClickListener {
+            displayWebViewActivity(it, it.url_text_view.text.toString())
+        }
         //TODO("url generation for different image resolution")
         Glide
             .with(holder.urlTextView.context)
             .load(photoItemList[position])
-            .diskCacheStrategy(DiskCacheStrategy.RESULT)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .centerCrop()
             .into(holder.photoPreview)
+//            .with(holder.urlTextView.context)
+//            .load(photoItemList[position])
+//            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//            .centerCrop()
+//            .into(holder.photoPreview)
 
     }
 

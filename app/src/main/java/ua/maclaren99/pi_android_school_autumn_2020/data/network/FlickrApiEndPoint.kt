@@ -22,23 +22,20 @@ interface FlickrApiEndPoint {
     companion object {
 
         const val urlKey = "URL_KEY"
+        val BASE_URL = "https://www.flickr.com/"
 
-        private var mInstant: FlickrApiEndPoint? = null
+        @Volatile
+        private var INSTANT: FlickrApiEndPoint? = null
 
         operator fun invoke(): FlickrApiEndPoint? {
 
-            return if (mInstant != null){
-                mInstant
-            } else {
-                val BASE_URL = "https://www.flickr.com/"
-
-                mInstant = Retrofit.Builder()
+            return INSTANT ?: synchronized(this){
+                Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory
                         .create())
                     .build()
                     .create(FlickrApiEndPoint::class.java)
-                mInstant
             }
         }
 

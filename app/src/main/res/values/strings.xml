@@ -3,4 +3,6 @@
     <string name="your_request_hint_edit_text">Your request…</string>
     <string name="search_button">SEARCH</string>
     <string name="web_view_activity_title">WebView</string>
+    <string name="login_hint">login</string>
+    <string name="login_button">LOGIN</string>
 </resources>

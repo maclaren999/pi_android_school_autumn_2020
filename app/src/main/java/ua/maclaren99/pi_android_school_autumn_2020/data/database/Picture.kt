@@ -1,4 +1,4 @@
-package ua.maclaren99.pi_android_school_autumn_2020.data.model
+package ua.maclaren99.pi_android_school_autumn_2020.data.database
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "picture_table")
 data class Picture(
+    @NonNull
+    val ownerLogin: String,
+    @NonNull
+    val url: String,
+    val uri: String,
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     @NonNull
-    val localID: Int,
-    val title: String,
-    @NonNull
-    val url: String,
-    val uri: String
+    val localID: Int? = null
 )

@@ -14,8 +14,6 @@ import ua.maclaren99.pi_android_school_autumn_2020.data.network.displayWebViewAc
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import java.lang.ref.WeakReference
 
-val TAG = "CAT"
-
 class MainActivity : AppCompatActivity() {
 
     companion object {
@@ -27,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         initRecyclerView()
 
@@ -59,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 //        recyclerView?.adapter
 //
 //    }
+
 
 }
 
