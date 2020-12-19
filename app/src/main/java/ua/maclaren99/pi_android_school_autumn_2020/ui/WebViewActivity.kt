@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -15,17 +17,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ua.maclaren99.pi_android_school_autumn_2020.R
-import ua.maclaren99.pi_android_school_autumn_2020.data.database.AppDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.saveImage
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.requestStrKey
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.urlKey
+import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
+import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
 
 
 class WebViewActivity : AppCompatActivity() {
 
     companion object {
-        lateinit var database: AppDatabase
         lateinit var imgUrl: String
     }
 
@@ -34,21 +37,19 @@ class WebViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_view)
         title = getString(R.string.web_view_activity_title)
 
+        initContent()
+        initButtons()
+
+
+    }
+
+    private fun initContent() {
         imgUrl = intent.getStringExtra(urlKey) ?: return
+        request_string_view.text = intent.getStringExtra(requestStrKey)
         web_view_2.settings.loadWithOverviewMode = true
         web_view_2.settings.useWideViewPort = true
         web_view_2.settings.setSupportZoom(true)
         web_view_2.loadUrl(imgUrl)
-
-        database = AppDatabase.getDatabase(this)
-
-        initButtons()
-
-
-
-
-
-
     }
 
     private fun initButtons() {
@@ -59,7 +60,13 @@ class WebViewActivity : AppCompatActivity() {
                     ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
                     "onCreate: addPictureToFavorite()"
                 )
+                add_favorite_button.visibility = View.GONE
+                add_favorite_filled_button.visibility = View.VISIBLE
             }
+        }
+        add_favorite_filled_button.setOnClickListener {
+            Toast.makeText(this, "TODO: Implement deleting img", Toast.LENGTH_SHORT).show()
+            //TODO("Deleting img")
         }
 
         history_button.setOnClickListener {
@@ -85,14 +92,17 @@ class WebViewActivity : AppCompatActivity() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     bitmap = resource
                     GlobalScope.launch(Dispatchers.IO) {
-                        sendBitmapToRoom(resource, imgUrl)
+                        try {
+                            sendBitmapToRoom(resource, imgUrl)
+                        } catch (e: Error) {
+                            Log.e(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, e.message)
+                        }
                     }
                 }
             })
 
-//        TODO("Добавить кнопку ИЗБРАННОЕ и обработку")
-
-//        TODO("Добавить активити со списком избранных и историей")
+    //        TODO("Добавить кнопку ИЗБРАННОЕ и обработку")
+    //        TODO("Добавить активити со списком избранных и историей")
     }
 
     private suspend fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
@@ -102,6 +112,6 @@ class WebViewActivity : AppCompatActivity() {
             ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
             "onResourceReady: sending to Room"
         )
-        database.pictureDAO().insert(Picture(currentUser.login, imgUrl, uri.toString()))
+        appDatabase.pictureDAO().insertPicture(Picture(currentUser.login, imgUrl, uri.toString()))
     }
 }

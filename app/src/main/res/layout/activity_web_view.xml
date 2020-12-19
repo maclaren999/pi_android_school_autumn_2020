@@ -45,5 +45,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageButton
+        android:id="@+id/add_favorite_filled_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_star"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/request_string_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="@dimen/def_margin"
+        android:textSize="@dimen/normal_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/history_button"
+        app:layout_constraintEnd_toStartOf="@id/add_favorite_button"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

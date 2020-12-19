@@ -1,26 +1,26 @@
-package ua.maclaren99.pi_android_school_autumn_2020.ui
+package ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.asyncFlickrSearchJob
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.displayWebViewActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import java.lang.ref.WeakReference
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        lateinit var mRecyclerView: RecyclerView
+        const val KEY_savedInput = "SAVED_INPUT_MAIN_ACTIVITY"
+        private lateinit var mRecyclerView: RecyclerView
         lateinit var mAdapter: PhotoUrlListAdapter
-        lateinit var mLayoutManager: LinearLayoutManager
+        private lateinit var mLayoutManager: LinearLayoutManager
+        lateinit var requestStr: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,19 +37,22 @@ class MainActivity : AppCompatActivity() {
     private fun initButtons() {
         search_button.setOnClickListener {
             hideKeyboard()
-            val requestStr = search_edit_text.text.toString()
+            requestStr = search_edit_text.text.toString()
             if (requestStr.isNotBlank()) {
                 val meRecyclerView: WeakReference<RecyclerView> = WeakReference(
                     photos_list_recycler_view
                 )
                 asyncFlickrSearchJob(requestStr/*, meRecyclerView*/)
             }
-            //TODO("Save to History")
         }
+        //Favorite
         favorites_button.setOnClickListener {
-            startActivity(
-                Intent(baseContext, FavoritesActivity::class.java)
-            )
+
+            startActivity(Intent(baseContext, FavoritesActivity::class.java))
+        }
+        //History
+        history_button.setOnClickListener {
+            startActivity(Intent(baseContext, HistoryActivity::class.java))
         }
     }
 
@@ -60,15 +63,19 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView.layoutManager = LinearLayoutManager(this)
 
     }
-//
-//    public fun displayAnswer(
-//        meRecyclerView: WeakReference<RecyclerView>,
-//        answerList: List<String>?
-//    ) {
-//        val recyclerView = meRecyclerView.get()
-//        recyclerView?.adapter
-//
-//    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        val input = search_edit_text.text.toString()
+        savedInstanceState.putString(KEY_savedInput, input)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val input = outState.getString(KEY_savedInput)
+        search_edit_text.setText(input)
+    }
+
 
 
 }

@@ -1,13 +1,15 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.preference.PreferenceManager
+import ua.maclaren99.pi_android_school_autumn_2020.data.database.AppDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.User
+import ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity.MainActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.LOGGED_USER_KEY
 import ua.maclaren99.pi_android_school_autumn_2020.util.UNLOGGED_USER
+import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this /* Activity context */)
+        appDatabase = AppDatabase.getDatabase(this)
 
         //TODO("Add sign out")
         val loggedUser: String = sharedPreferences.getString(LOGGED_USER_KEY, UNLOGGED_USER) ?: ""

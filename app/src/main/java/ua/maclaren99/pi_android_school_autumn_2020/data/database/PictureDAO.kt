@@ -9,10 +9,14 @@ interface PictureDAO {
     fun insertUser(user: User)
 
     @Insert
-    fun insert(picture: Picture)
+    fun insertPicture(picture: Picture)
 
     @Insert
-    fun insert(request: Request)
+    fun insertRequest(request: Request)
+
+    @Transaction
+    @Query("SELECT * FROM picture_table WHERE ownerLogin = :login")
+    fun testGetPicturesOfUser(login: String): List<Picture>
 
     @Transaction
     @Query("SELECT * FROM user_table WHERE login = :login")
@@ -23,8 +27,8 @@ interface PictureDAO {
     fun getUsersAndPictures(): List<UserPictures>
 
     @Transaction
-    @Query("SELECT * FROM user_table WHERE login = :login")
-    fun getUserHistory(login: String): UserRequests
+    @Query("SELECT * FROM request_table WHERE ownerLogin = :login ORDER BY time ASC")
+    fun getUserHistory(login: String): List<Request>
 
     @Delete
     fun delete(picture: Picture)

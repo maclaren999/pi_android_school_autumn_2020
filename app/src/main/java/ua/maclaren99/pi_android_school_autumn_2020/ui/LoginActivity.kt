@@ -1,6 +1,5 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,9 +12,9 @@ import kotlinx.coroutines.withContext
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.AppDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.User
+import ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity.MainActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.LOGGED_USER_KEY
 import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
-import kotlin.coroutines.CoroutineContext
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

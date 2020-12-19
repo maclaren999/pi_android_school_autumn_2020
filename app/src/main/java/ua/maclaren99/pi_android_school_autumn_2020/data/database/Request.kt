@@ -10,6 +10,8 @@ data class Request(
     val request: String,
     @NonNull
     val ownerLogin: String,
+    @NonNull
+    val time: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true)
     @NonNull
     val id: Int? = null

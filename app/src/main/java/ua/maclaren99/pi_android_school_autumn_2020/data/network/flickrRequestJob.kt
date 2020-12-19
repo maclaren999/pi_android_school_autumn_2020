@@ -3,9 +3,13 @@ package ua.maclaren99.pi_android_school_autumn_2020.data.network
 import android.content.Intent
 import android.view.View
 import kotlinx.coroutines.*
+import ua.maclaren99.pi_android_school_autumn_2020.data.database.Request
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.requestStrKey
 import ua.maclaren99.pi_android_school_autumn_2020.ui.WebViewActivity
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.urlKey
-import ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity.MainActivity
+import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
+import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
 
 fun asyncFlickrSearchJob(
     requestStr: String,
@@ -19,6 +23,10 @@ fun asyncFlickrSearchJob(
     }.await()
 
     displayAnswer(/*meTextView,*/ answerList)
+    //Saving
+    launch(Dispatchers.IO) {
+        appDatabase.pictureDAO().insertRequest(Request(requestStr, currentUser.login))
+    }
 }
 
 private fun displayAnswer(
@@ -27,6 +35,7 @@ private fun displayAnswer(
 ) {
     answerList?.let {
 //        val recyclerView = meRecyclerView.get()
+        MainActivity.mAdapter.removeAll()
         MainActivity.mAdapter.addItems(*it.toTypedArray())
     }
 
@@ -36,6 +45,7 @@ fun displayWebViewActivity(linksView: View, url: String) {
     val context = linksView.context
     val intent = Intent(context, WebViewActivity::class.java)
         .putExtra(urlKey, url)
+        .putExtra(requestStrKey, MainActivity.requestStr)
     context.startActivity(intent)
 }
 
