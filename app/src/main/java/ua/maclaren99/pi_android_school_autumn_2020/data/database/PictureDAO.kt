@@ -17,6 +17,7 @@ interface PictureDAO {
     @Transaction
     @Query("SELECT * FROM picture_table WHERE ownerLogin = :login")
     fun testGetPicturesOfUser(login: String): List<Picture>
+    //TODO("Change return type to Flow")
 
     @Transaction
     @Query("SELECT * FROM user_table WHERE login = :login")

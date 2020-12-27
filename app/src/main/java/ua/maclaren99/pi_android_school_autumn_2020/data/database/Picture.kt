@@ -12,6 +12,7 @@ data class Picture(
     @NonNull
     val url: String,
     val uri: String,
+    val request: String = "empty",
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     @NonNull

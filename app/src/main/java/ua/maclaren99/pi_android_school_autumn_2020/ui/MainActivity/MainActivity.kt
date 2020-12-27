@@ -2,7 +2,9 @@ package ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,6 +14,14 @@ import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.Favorite
 import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import java.lang.ref.WeakReference
+
+
+/*
+* Удаление свайпом из списка
+* Удаление избранного по кнопке
+* Групировка избранных по запросам
+* 
+* */
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var requestStr: String
     }
 
+    //TODO("Requesting write storage permission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,6 +73,34 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView.adapter = mAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(this)
 
+        initItemTouchHelper()
+    }
+
+    private fun initItemTouchHelper() {
+        val helper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(
+                    viewHolder: RecyclerView.ViewHolder,
+                    direction: Int
+                ) {
+                    val position = viewHolder.adapterPosition
+                    // Delete the word
+                    mAdapter.removeItems(position)
+                }
+            })
+
+        helper.attachToRecyclerView(mRecyclerView)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -75,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         val input = outState.getString(KEY_savedInput)
         search_edit_text.setText(input)
     }
-
 
 
 }

@@ -30,6 +30,7 @@ class WebViewActivity : AppCompatActivity() {
 
     companion object {
         lateinit var imgUrl: String
+        lateinit var requestStr: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,8 @@ class WebViewActivity : AppCompatActivity() {
 
     private fun initContent() {
         imgUrl = intent.getStringExtra(urlKey) ?: return
-        request_string_view.text = intent.getStringExtra(requestStrKey)
+        requestStr = intent.getStringExtra(requestStrKey) ?: ""
+        request_string_view.text =  requestStr
         web_view_2.settings.loadWithOverviewMode = true
         web_view_2.settings.useWideViewPort = true
         web_view_2.settings.setSupportZoom(true)
@@ -112,6 +114,6 @@ class WebViewActivity : AppCompatActivity() {
             ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
             "onResourceReady: sending to Room"
         )
-        appDatabase.pictureDAO().insertPicture(Picture(currentUser.login, imgUrl, uri.toString()))
+        appDatabase.pictureDAO().insertPicture(Picture(currentUser.login, imgUrl, uri.toString(), requestStr))
     }
 }
