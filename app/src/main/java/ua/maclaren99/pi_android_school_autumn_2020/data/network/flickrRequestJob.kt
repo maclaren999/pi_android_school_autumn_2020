@@ -1,8 +1,11 @@
 package ua.maclaren99.pi_android_school_autumn_2020.data.network
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import kotlinx.coroutines.*
+import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.Request
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.requestStrKey
 import ua.maclaren99.pi_android_school_autumn_2020.ui.WebViewActivity
@@ -46,6 +49,13 @@ fun displayWebViewActivity(linksView: View, url: String) {
     val intent = Intent(context, WebViewActivity::class.java)
         .putExtra(urlKey, url)
         .putExtra(requestStrKey, MainActivity.requestStr)
+    context.startActivity(intent)
+}
+
+fun displayWebViewActivity(context: Context, picture: Picture){
+    val intent = Intent(context, WebViewActivity::class.java)
+        .putExtra(urlKey, picture.url)
+        .putExtra(requestStrKey, picture.request)
     context.startActivity(intent)
 }
 

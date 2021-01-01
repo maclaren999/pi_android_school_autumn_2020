@@ -5,4 +5,6 @@
     <string name="web_view_activity_title">WebView</string>
     <string name="login_hint">login</string>
     <string name="login_button">LOGIN</string>
+    <string name="location_required">Location required to find pictures near you.</string>
+    <string name="storage_permission_needed">Storage permission needed to download pictures</string>
 </resources>

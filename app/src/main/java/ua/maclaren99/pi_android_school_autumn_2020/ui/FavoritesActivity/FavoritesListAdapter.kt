@@ -20,9 +20,10 @@ import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.displayWebViewActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
 
-val TAG = ua.maclaren99.pi_android_school_autumn_2020.util.TAG
 
 class FavoritesListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+ private val TAG = ua.maclaren99.pi_android_school_autumn_2020.util.TAG
 
     companion object{
         const val ITEM_PICTURE = 0
@@ -80,7 +81,7 @@ class FavoritesListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
 
                 holder.itemView.setOnClickListener {
-                    displayWebViewActivity(it, it.url_text_view.text.toString())
+                    displayWebViewActivity(holder.urlTextView.context, (data[position] as Picture))
                 }
 
                 Glide

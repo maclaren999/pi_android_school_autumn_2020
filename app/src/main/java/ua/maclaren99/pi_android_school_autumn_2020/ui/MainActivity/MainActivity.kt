@@ -1,6 +1,8 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,17 +15,15 @@ import ua.maclaren99.pi_android_school_autumn_2020.data.network.asyncFlickrSearc
 import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
 import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
+import ua.maclaren99.pi_android_school_autumn_2020.util.runWithPermission
 import java.lang.ref.WeakReference
 
 
-/*
-* Удаление свайпом из списка
-* Удаление избранного по кнопке
-* Групировка избранных по запросам
-* 
-* */
-
 class MainActivity : AppCompatActivity() {
+
+    private val REQUEST_LOCATION_PERMISSION: Int = 2001
+    private val REQUEST_WRITE_EXTERNAL_PERMISSION: Int = 2002
+    private val TAG= ua.maclaren99.pi_android_school_autumn_2020.util.TAG
 
     companion object {
         const val KEY_savedInput = "SAVED_INPUT_MAIN_ACTIVITY"
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        initFields()
         initRecyclerView()
         initButtons()
 
@@ -65,7 +65,33 @@ class MainActivity : AppCompatActivity() {
         history_button.setOnClickListener {
             startActivity(Intent(baseContext, HistoryActivity::class.java))
         }
+
+        location_button.setOnClickListener {
+            getLocation()
+        }
     }
+
+    private fun initFields() {
+        requestDataPermission()
+    }
+
+    private fun requestDataPermission() {
+        runWithPermission(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            REQUEST_WRITE_EXTERNAL_PERMISSION
+        ){
+
+        }
+    }
+
+
+    private fun getLocation(){
+        runWithPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_PERMISSION){
+            //Start activity
+        }
+    }
+
+
 
     private fun initRecyclerView() {
         mRecyclerView = photos_list_recycler_view
@@ -115,6 +141,39 @@ class MainActivity : AppCompatActivity() {
         search_edit_text.setText(input)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            REQUEST_LOCATION_PERMISSION ->             // If the permission is granted, get the location,
+                // otherwise, show a Toast
+                if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                    getLocation()
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.location_required),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            REQUEST_WRITE_EXTERNAL_PERMISSION ->
+                if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.storage_permission_needed),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+        }
+    }
 
 }
 
