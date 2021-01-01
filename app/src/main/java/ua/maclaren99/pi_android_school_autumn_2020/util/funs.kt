@@ -30,4 +30,6 @@ fun Activity.hideKeyboard() {
     }
 }
 
+
+
 //fun generateImgUrl()

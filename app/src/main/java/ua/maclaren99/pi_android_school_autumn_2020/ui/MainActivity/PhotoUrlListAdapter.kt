@@ -26,6 +26,7 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
 
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoUrlViewHolder =
         PhotoUrlViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_photo_card, parent, false)

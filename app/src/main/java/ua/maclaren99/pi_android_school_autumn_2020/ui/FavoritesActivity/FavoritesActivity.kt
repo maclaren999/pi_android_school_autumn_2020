@@ -1,7 +1,7 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity
 
 import android.os.Bundle
-import android.provider.Settings
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +44,8 @@ class FavoritesActivity : AppCompatActivity() {
                 appDatabase.pictureDAO().getUserPictures(currentUser.login).pictures
             }
 
-            mAdapter.addItems(*favoritesList.toTypedArray())
+            Log.d(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, "initFields: rewriteData()")
+            mAdapter.setNewData(*favoritesList.toTypedArray())
         }
 
     }

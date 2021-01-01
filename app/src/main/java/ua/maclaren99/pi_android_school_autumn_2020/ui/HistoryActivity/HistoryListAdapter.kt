@@ -1,10 +1,8 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_history_request.view.*
 import ua.maclaren99.pi_android_school_autumn_2020.R
@@ -16,9 +14,12 @@ class HistoryListAdapter : RecyclerView.Adapter<HistoryListAdapter.HistoryListVi
     private val historyList = mutableListOf<Request>()
 
     class HistoryListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val urlTextView = view.request_text_view
+        val urlTextView = view.request_header_text_view
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position) 
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryListViewHolder =
         HistoryListViewHolder(
@@ -27,7 +28,7 @@ class HistoryListAdapter : RecyclerView.Adapter<HistoryListAdapter.HistoryListVi
         )
 
     override fun onBindViewHolder(holder: HistoryListViewHolder, position: Int) {
-        holder.urlTextView.text = historyList[position].request.toString()
+        holder.urlTextView.text = historyList[position].request
     }
 
     override fun getItemCount(): Int = historyList.size

@@ -21,8 +21,8 @@ fun asyncFlickrSearchJob(
             FlickrApiEndPoint.doSearchRequest(it, FlickrApiEndPoint())
         }
     }.await()
-
     displayAnswer(/*meTextView,*/ answerList)
+
     //Saving
     launch(Dispatchers.IO) {
         appDatabase.pictureDAO().insertRequest(Request(requestStr, currentUser.login))
