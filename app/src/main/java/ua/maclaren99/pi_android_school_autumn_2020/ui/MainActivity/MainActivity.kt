@@ -14,9 +14,11 @@ import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.asyncFlickrSearchJob
 import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
 import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.MapsActivity.MapsActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import ua.maclaren99.pi_android_school_autumn_2020.util.runWithPermission
 import java.lang.ref.WeakReference
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         private lateinit var mRecyclerView: RecyclerView
         lateinit var mAdapter: PhotoUrlListAdapter
         private lateinit var mLayoutManager: LinearLayoutManager
-        lateinit var requestStr: String
+        var requestStr: String = ""
     }
 
     //TODO("Requesting write storage permission")
@@ -67,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         location_button.setOnClickListener {
-            getLocation()
+            checkLocationPermission()
         }
     }
 
@@ -85,9 +87,10 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun getLocation(){
+    private fun checkLocationPermission(){
         runWithPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_LOCATION_PERMISSION){
-            //Start activity
+            val intent = Intent(this, MapsActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -151,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.size > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    getLocation()
+                    checkLocationPermission()
                 } else {
                     Toast.makeText(
                         this,

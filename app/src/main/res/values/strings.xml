@@ -7,4 +7,7 @@
     <string name="login_button">LOGIN</string>
     <string name="location_required">Location required to find pictures near you.</string>
     <string name="storage_permission_needed">Storage permission needed to download pictures</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="your_location">Your location</string>
+    <string name="flickr_search_button">Flickr</string>
 </resources>

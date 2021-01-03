@@ -16,7 +16,6 @@ import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
 
 fun asyncFlickrSearchJob(
     requestStr: String,
-//    meTextView: WeakReference<RecyclerView>
 ) = GlobalScope.launch(Dispatchers.Main) {
     //Requesting list of photos url
     val answerList = async(Dispatchers.IO) {
@@ -24,7 +23,7 @@ fun asyncFlickrSearchJob(
             FlickrApiEndPoint.doSearchRequest(it, FlickrApiEndPoint())
         }
     }.await()
-    displayAnswer(/*meTextView,*/ answerList)
+    displayAnswer(answerList)
 
     //Saving
     launch(Dispatchers.IO) {
@@ -33,11 +32,9 @@ fun asyncFlickrSearchJob(
 }
 
 private fun displayAnswer(
-//    meRecyclerView: WeakReference<RecyclerView>,
     answerList: List<String>?
 ) {
     answerList?.let {
-//        val recyclerView = meRecyclerView.get()
         MainActivity.mAdapter.removeAll()
         MainActivity.mAdapter.addItems(*it.toTypedArray())
     }
@@ -52,7 +49,7 @@ fun displayWebViewActivity(linksView: View, url: String) {
     context.startActivity(intent)
 }
 
-fun displayWebViewActivity(context: Context, picture: Picture){
+fun displayWebViewActivity(context: Context, picture: Picture) {
     val intent = Intent(context, WebViewActivity::class.java)
         .putExtra(urlKey, picture.url)
         .putExtra(requestStrKey, picture.request)

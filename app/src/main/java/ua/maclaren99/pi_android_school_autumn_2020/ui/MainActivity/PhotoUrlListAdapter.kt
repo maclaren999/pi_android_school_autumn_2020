@@ -56,10 +56,11 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
 
     override fun getItemCount(): Int = photoItemList.size
 
-    fun addItems(vararg elements: String) {
+
+    fun addItems(vararg elementsURL: String) {
         val prevSize = photoItemList.size
-        photoItemList.addAll(elements)
-        notifyItemRangeInserted(prevSize + 1, elements.size)
+        photoItemList.addAll(elementsURL)
+        notifyItemRangeInserted(prevSize + 1, elementsURL.size)
     }
 
     fun removeAll(){
