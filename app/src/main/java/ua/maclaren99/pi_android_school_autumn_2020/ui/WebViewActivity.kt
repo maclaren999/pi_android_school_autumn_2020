@@ -19,9 +19,11 @@ import kotlinx.coroutines.launch
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.saveImage
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.requestStrKey
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.urlKey
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.KEY_LOCAL_RESOURCE_MODE
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.KEY_REQUEST_TEXT
+import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint.Companion.KEY_URL
 import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.util.currentUser
 
@@ -31,6 +33,7 @@ class WebViewActivity : AppCompatActivity() {
     companion object {
         lateinit var imgUrl: String
         lateinit var requestStr: String
+        var isLocalMode: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,13 +44,13 @@ class WebViewActivity : AppCompatActivity() {
         initContent()
         initButtons()
 
-
     }
 
     private fun initContent() {
-        imgUrl = intent.getStringExtra(urlKey) ?: return
-        requestStr = intent.getStringExtra(requestStrKey) ?: ""
-        request_string_view.text =  requestStr
+        isLocalMode = intent.getBooleanExtra(KEY_LOCAL_RESOURCE_MODE, false)
+        imgUrl = intent.getStringExtra(KEY_URL) ?: return
+        requestStr = intent.getStringExtra(KEY_REQUEST_TEXT) ?: ""
+        request_string_view.text = requestStr
         web_view_2.settings.loadWithOverviewMode = true
         web_view_2.settings.useWideViewPort = true
         web_view_2.settings.setSupportZoom(true)
@@ -55,25 +58,30 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     private fun initButtons() {
-        add_favorite_button.setOnClickListener {
-            GlobalScope.launch(Dispatchers.Main) {
-                addPictureToFavorite(imgUrl)
-                Log.d(
-                    ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
-                    "onCreate: addPictureToFavorite()"
-                )
-                add_favorite_button.visibility = View.GONE
-                add_favorite_filled_button.visibility = View.VISIBLE
+        if (!isLocalMode) {
+            add_favorite_button.setOnClickListener {
+                GlobalScope.launch(Dispatchers.Main) {
+                    addPictureToFavorite(imgUrl)
+                    Log.d(
+                        ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
+                        "onCreate: addPictureToFavorite()"
+                    )
+                    add_favorite_button.visibility = View.GONE
+                    add_favorite_filled_button.visibility = View.VISIBLE
+                }
             }
-        }
-        add_favorite_filled_button.setOnClickListener {
-            Toast.makeText(this, "TODO: Implement deleting img", Toast.LENGTH_SHORT).show()
-            //TODO("Deleting img")
+            add_favorite_filled_button.setOnClickListener {
+                Toast.makeText(this, "TODO: Implement deleting img", Toast.LENGTH_SHORT).show()
+                //TODO("Deleting img")
+            }
+        } else {
+            add_favorite_button.visibility = View.INVISIBLE
+            add_favorite_filled_button.visibility = View.INVISIBLE
         }
 
         history_button.setOnClickListener {
             startActivity(
-                Intent(baseContext, FavoritesActivity::class.java)
+                Intent(baseContext, HistoryActivity::class.java)
             )
         }
     }
@@ -102,9 +110,6 @@ class WebViewActivity : AppCompatActivity() {
                     }
                 }
             })
-
-    //        TODO("Добавить кнопку ИЗБРАННОЕ и обработку")
-    //        TODO("Добавить активити со списком избранных и историей")
     }
 
     private suspend fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
@@ -114,6 +119,7 @@ class WebViewActivity : AppCompatActivity() {
             ua.maclaren99.pi_android_school_autumn_2020.util.TAG,
             "onResourceReady: sending to Room"
         )
-        appDatabase.pictureDAO().insertPicture(Picture(currentUser.login, imgUrl, uri.toString(), requestStr))
+        appDatabase.pictureDAO()
+            .insertPicture(Picture(currentUser.login, imgUrl, uri.toString(), requestStr))
     }
 }

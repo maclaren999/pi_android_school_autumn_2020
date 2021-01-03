@@ -31,8 +31,9 @@ interface FlickrApiEndPoint {
 
     companion object {
 
-        const val urlKey = "URL_KEY"
-        const val requestStrKey = "REQUESTED_STRING"
+        const val KEY_URL = "URL_KEY"
+        const val KEY_REQUEST_TEXT = "REQUESTED_STRING"
+        const val KEY_LOCAL_RESOURCE_MODE = "LOCAL_RESOURCE"
         val BASE_URL = "https://www.flickr.com/"
 
         @Volatile

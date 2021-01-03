@@ -31,6 +31,31 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
+        android:id="@+id/my_gallery_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/def_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_photo_library_24"
+
+        app:layout_constraintBottom_toBottomOf="@id/search_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"  />
+
+    <ImageButton
+        android:id="@+id/take_photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/def_margin"
+        android:layout_marginEnd="@dimen/def_margin"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+
+        app:layout_constraintBottom_toBottomOf="@id/search_button"
+        app:layout_constraintEnd_toEndOf="parent"  />
+
+    <ImageButton
         android:id="@+id/favorites_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,27 +71,25 @@
         android:id="@+id/location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginHorizontal="@dimen/def_margin"
         android:clickable="true"
 
         android:focusable="true"
         android:src="@drawable/ic_location"
         app:layout_constraintBottom_toBottomOf="@id/search_button"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/favorites_button" />
 
     <EditText
         android:id="@+id/search_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/def_margin"
-        android:layout_marginEnd="48dp"
+        android:layout_marginHorizontal="@dimen/def_margin"
         android:hint="@string/your_request_hint_edit_text"
         android:inputType="text"
         android:text="cat"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/my_gallery_button"
         app:layout_constraintStart_toEndOf="@+id/history_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.8" />
