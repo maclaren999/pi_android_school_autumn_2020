@@ -1,15 +1,16 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui.MapsActivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.activity_flickr_location.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.FlickrApiEndPoint
 import ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity.PhotoUrlListAdapter

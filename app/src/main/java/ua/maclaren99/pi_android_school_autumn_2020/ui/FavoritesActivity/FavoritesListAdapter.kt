@@ -17,8 +17,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.database.Picture
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.displayWebViewActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
+import ua.maclaren99.pi_android_school_autumn_2020.util.displayWebViewActivity
 
 
 class FavoritesListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

@@ -20,15 +20,14 @@ import ua.maclaren99.pi_android_school_autumn_2020.R
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object{
-        public const val KEY_LATITUDE = "latitude"
-        public const val KEY_LONGITUDE = "longitude"
+        const val KEY_LATITUDE = "latitude"
+        const val KEY_LONGITUDE = "longitude"
     }
 
     private val REQUEST_LOCATION_PERMISSION: Int = 2001
     val defaultZoom = 10F
     private lateinit var mMap: GoogleMap
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
-//    private lateinit var currentLocation: LatLng
     private lateinit var currentLocation: Marker
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +66,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
         mFusedLocationClient.lastLocation.addOnSuccessListener {
             if (it != null) {
                 val marker = mMap.addMarker(
