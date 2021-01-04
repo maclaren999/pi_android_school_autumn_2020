@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 2003
     private val REQUEST_LOCATION_PERMISSION: Int = 2001
     private val REQUEST_WRITE_EXTERNAL_PERMISSION: Int = 2002
+    private val REQUEST_CAMERA_PERMISSION: Int = 2002
     private val TAG = ua.maclaren99.pi_android_school_autumn_2020.util.TAG
 
     companion object {
@@ -83,7 +84,9 @@ class MainActivity : AppCompatActivity() {
         }
         //Take photo
         take_photo_button.setOnClickListener {
-            dispatchTakePictureIntent()
+            runWithPermission(Manifest.permission.CAMERA, REQUEST_CAMERA_PERMISSION) {
+                dispatchTakePictureIntent()
+            }
         }
         //My photos gallery
         my_gallery_button.setOnClickListener {
@@ -185,7 +188,8 @@ class MainActivity : AppCompatActivity() {
                     createImageFile()
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
-                    Toast.makeText(this, getString(R.string.cant_find_camera), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.cant_find_camera), Toast.LENGTH_LONG)
+                        .show()
                     null
                 }
 
@@ -212,9 +216,9 @@ class MainActivity : AppCompatActivity() {
 //                        .withAspectRatio(16, 9)
 //                        .withMaxResultSize(maxWidth, maxHeight)
 //                        .start(context);
-                }
             }
         }
+    }
 
 
     override fun onRequestPermissionsResult(
