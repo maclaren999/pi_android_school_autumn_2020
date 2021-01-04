@@ -64,9 +64,6 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
             requestStr = search_edit_text.text.toString()
             if (requestStr.isNotBlank()) {
-                val meRecyclerView: WeakReference<RecyclerView> = WeakReference(
-                    photos_list_recycler_view
-                )
                 asyncFlickrSearchJob(requestStr/*, meRecyclerView*/)
             }
         }
