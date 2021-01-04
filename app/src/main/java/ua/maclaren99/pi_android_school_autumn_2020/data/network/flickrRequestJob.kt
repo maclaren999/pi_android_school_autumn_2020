@@ -41,20 +41,5 @@ private fun displayAnswer(
 
 }
 
-fun displayWebViewActivity(linksView: View, url: String) {
-    val context = linksView.context
-    val intent = Intent(context, WebViewActivity::class.java)
-        .putExtra(KEY_URL, url)
-        .putExtra(KEY_REQUEST_TEXT, MainActivity.requestStr)
-        .putExtra(KEY_LOCAL_RESOURCE_MODE, false)
-    context.startActivity(intent)
-}
 
-fun displayWebViewActivity(context: Context, picture: Picture) {
-    val intent = Intent(context, WebViewActivity::class.java)
-        .putExtra(KEY_URL, picture.uri)
-        .putExtra(KEY_REQUEST_TEXT, picture.request)
-        .putExtra(KEY_LOCAL_RESOURCE_MODE, true)
-    context.startActivity(intent)
-}
 

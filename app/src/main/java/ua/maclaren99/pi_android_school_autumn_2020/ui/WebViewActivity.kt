@@ -43,7 +43,6 @@ class WebViewActivity : AppCompatActivity() {
 
         initContent()
         initButtons()
-
     }
 
     private fun initContent() {
@@ -105,14 +104,14 @@ class WebViewActivity : AppCompatActivity() {
                         try {
                             sendBitmapToRoom(resource, imgUrl)
                         } catch (e: Error) {
-                            Log.e(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, e.message)
+                            Log.e(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, e.message.toString())
                         }
                     }
                 }
             })
     }
 
-    private suspend fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
+    private fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
         val uri: Uri = saveImage(resource, this@WebViewActivity) ?: return
 
         Log.d(

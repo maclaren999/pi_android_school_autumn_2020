@@ -1,22 +1,14 @@
 package ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_main.*
 import ua.maclaren99.pi_android_school_autumn_2020.R
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.asyncFlickrSearchJob
@@ -25,11 +17,7 @@ import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryAct
 import ua.maclaren99.pi_android_school_autumn_2020.ui.MapsActivity.MapsActivity
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import ua.maclaren99.pi_android_school_autumn_2020.util.runWithPermission
-import java.io.File
-import java.io.IOException
 import java.lang.ref.WeakReference
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,9 +51,6 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
             requestStr = search_edit_text.text.toString()
             if (requestStr.isNotBlank()) {
-                val meRecyclerView: WeakReference<RecyclerView> = WeakReference(
-                    photos_list_recycler_view
-                )
                 asyncFlickrSearchJob(requestStr)
             }
         }
