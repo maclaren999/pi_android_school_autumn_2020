@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <cache-path name="app_cache" path="cache/"/>
-    <files-path name="my_photos" path="photos/"/>
-    <external-files-path name="my_images" path="Android/data/ua.maclaren99.pi_android_school_autumn_2020/files/Pictures" />
-</paths>
