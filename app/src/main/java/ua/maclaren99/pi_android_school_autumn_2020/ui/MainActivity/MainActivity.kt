@@ -160,14 +160,19 @@ class MainActivity : AppCompatActivity() {
     // TODO: 03.01.2021 Separate
     lateinit var currentPhotoPath: String
     lateinit var savedPhotoUri: Uri
-
+    lateinit var cacheFile: File
+    private val authority = "ua.maclaren99.pi_android_school_autumn_2020.fileprovider"
 
     @SuppressLint("SimpleDateFormat")
     @Throws(IOException::class)
-    private fun createImageFile(): File {
+    private fun createImageFile(isCache: Boolean = false): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES) // filesDir
+        val storageDir: File? = if (isCache) {
+            cacheDir
+        } else {
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES) // filesDir
+        }
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -182,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
                 val photoFile: File? = try {
-                    createImageFile()
+                    createImageFile().also { cacheFile = it }
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
                     Toast.makeText(this, getString(R.string.cant_find_camera), Toast.LENGTH_LONG)
@@ -193,7 +198,7 @@ class MainActivity : AppCompatActivity() {
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                         this,
-                        "ua.maclaren99.pi_android_school_autumn_2020.fileprovider",
+                        authority,
                         it
                     )
                     savedPhotoUri = photoURI
@@ -208,11 +213,25 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_IMAGE_CAPTURE -> {
-//                if (resultCode == Activity.RESULT_OK){
-//                    UCrop.of(savedPhotoUri, destinationUri)
-//                        .withAspectRatio(16, 9)
-//                        .withMaxResultSize(maxWidth, maxHeight)
-//                        .start(context);
+                if (resultCode == Activity.RESULT_OK) {
+                    val cropURI = FileProvider.getUriForFile(
+                        this,
+                        authority,
+                        createImageFile()
+                    )
+                    UCrop.of(savedPhotoUri, cropURI)
+                        .withMaxResultSize(600, 600)
+                        .start(this);
+                } else {
+                    cacheFile.delete()
+                }
+            }
+            UCrop.REQUEST_CROP -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(this, "Croped successful", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Crop failed", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
