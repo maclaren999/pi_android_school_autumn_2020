@@ -10,20 +10,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_photo_card.view.*
 import ua.maclaren99.pi_android_school_autumn_2020.R
-import ua.maclaren99.pi_android_school_autumn_2020.data.network.displayWebViewActivity
+import ua.maclaren99.pi_android_school_autumn_2020.util.displayWebViewActivity
 
 
 class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlViewHolder>() {
 
     private val photoItemList: MutableList<String> = mutableListOf<String>()
+    var onItemDeleteLambda: (position: Int, holder: PhotoUrlViewHolder) -> Unit = { pos, holder-> }
 
-    class PhotoUrlViewHolder(view: View) : RecyclerView.ViewHolder(view)/*, View.OnClickListener*/ {
+    class PhotoUrlViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val urlTextView: TextView = view.url_text_view
         val photoPreview: ImageView = view.photo_preview
         val innerLayout = view.item_photo_card_clayout
         val closeButton = view.close_button
-
-
     }
 
 
@@ -38,6 +37,7 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
 //        TODO("Write one listener for all views")
         holder.closeButton.setOnClickListener {
             removeItems(position)
+            onItemDeleteLambda(position, holder)
         }
 
         holder.itemView.setOnClickListener {
@@ -50,8 +50,6 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .centerCrop()
             .into(holder.photoPreview)
-
-
     }
 
     override fun getItemCount(): Int = photoItemList.size
@@ -63,7 +61,7 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
         notifyItemRangeInserted(prevSize + 1, elementsURL.size)
     }
 
-    fun removeAll(){
+    fun removeAll() {
         photoItemList.clear()
         notifyDataSetChanged()
     }
@@ -73,19 +71,12 @@ class PhotoUrlListAdapter : RecyclerView.Adapter<PhotoUrlListAdapter.PhotoUrlVie
         notifyDataSetChanged()
     }
 
+
     fun removeItems(vararg positions: Int) {
         positions.forEach {
             photoItemList.removeAt(it)
         }
         notifyDataSetChanged()
-    }
-
-    class PhotoItem(){
-        //TODO("")
-    }
-
-    class RequestHeaderItem(){
-
     }
 
 }

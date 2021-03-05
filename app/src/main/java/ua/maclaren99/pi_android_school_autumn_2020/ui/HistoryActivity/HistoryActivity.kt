@@ -33,7 +33,7 @@ class HistoryActivity : AppCompatActivity() {
     private fun initHistory() {
         GlobalScope.launch(Dispatchers.Main) {
             val history: List<Request> = async(Dispatchers.IO) {
-                appDatabase.pictureDAO().getUserHistory(currentUser.login)
+                appDatabase.requestDAO().getUserHistory(currentUser.login)
             }.await()
 
             Log.d(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, history.toString())

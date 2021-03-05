@@ -112,7 +112,7 @@ class WebViewActivity : AppCompatActivity() {
             })
     }
 
-    private suspend fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
+    private fun sendBitmapToRoom(resource: Bitmap, imgUrl: String) {
         val uri: Uri = saveImage(resource, this@WebViewActivity) ?: return
 
         Log.d(

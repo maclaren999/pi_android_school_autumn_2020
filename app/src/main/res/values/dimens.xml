@@ -3,4 +3,5 @@
     <dimen name="normal_text">16sp</dimen>
     <dimen name="def_margin">16dp</dimen>
     <dimen name="small_margin">10dp</dimen>
+    <dimen name="tiny_margin">10dp</dimen>
 </resources>

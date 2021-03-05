@@ -2,14 +2,9 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
     app:cardCornerRadius="10dp"
     app:cardElevation="@dimen/def_margin"
-    android:layout_margin="10dp"
-    >
+    style="@style/card_view">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_photo_card_clayout"
@@ -42,10 +37,9 @@
 
     <ImageButton
         android:id="@+id/close_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:src="@drawable/ic_close"
+        style="@style/image_button"
         />
 
 </androidx.cardview.widget.CardView>

@@ -3,13 +3,14 @@ package ua.maclaren99.pi_android_school_autumn_2020.ui.MainActivity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.Menu
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -18,30 +19,38 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.day_night_item_layout.*
+import kotlinx.android.synthetic.main.day_night_item_layout.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ua.maclaren99.pi_android_school_autumn_2020.R
+import ua.maclaren99.pi_android_school_autumn_2020.data.database.MyPhoto
 import ua.maclaren99.pi_android_school_autumn_2020.data.network.asyncFlickrSearchJob
 import ua.maclaren99.pi_android_school_autumn_2020.ui.FavoritesActivity.FavoritesActivity
+import ua.maclaren99.pi_android_school_autumn_2020.ui.Gallery.GalleryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.ui.HistoryActivity.HistoryActivity
 import ua.maclaren99.pi_android_school_autumn_2020.ui.MapsActivity.MapsActivity
+import ua.maclaren99.pi_android_school_autumn_2020.util.appDatabase
 import ua.maclaren99.pi_android_school_autumn_2020.util.hideKeyboard
 import ua.maclaren99.pi_android_school_autumn_2020.util.runWithPermission
 import java.io.File
 import java.io.IOException
-import java.lang.ref.WeakReference
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    val REQUEST_IMAGE_CAPTURE = 2003
     private val REQUEST_LOCATION_PERMISSION: Int = 2001
     private val REQUEST_WRITE_EXTERNAL_PERMISSION: Int = 2002
     private val REQUEST_CAMERA_PERMISSION: Int = 2002
     private val TAG = ua.maclaren99.pi_android_school_autumn_2020.util.TAG
 
     companion object {
+
         const val KEY_savedInput = "SAVED_INPUT_MAIN_ACTIVITY"
+        const val KEY_TAKE_PHOTO = "TAKE_PHOTO"
         private lateinit var mRecyclerView: RecyclerView
         lateinit var mAdapter: PhotoUrlListAdapter
         private lateinit var mLayoutManager: LinearLayoutManager
@@ -56,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
         initButtons()
 
+        Toast.makeText(this, "works", Toast.LENGTH_LONG).show()
 
     }
 
@@ -82,12 +92,16 @@ class MainActivity : AppCompatActivity() {
         //Take photo
         take_photo_button.setOnClickListener {
             runWithPermission(Manifest.permission.CAMERA, REQUEST_CAMERA_PERMISSION) {
-                dispatchTakePictureIntent()
+                startActivity(Intent(this, GalleryActivity::class.java)
+                    .putExtra(KEY_TAKE_PHOTO, true))
+
             }
         }
         //My photos gallery
         my_gallery_button.setOnClickListener {
-
+            runWithPermission(Manifest.permission.CAMERA, REQUEST_CAMERA_PERMISSION) {
+                startActivity(Intent(this, GalleryActivity::class.java))
+            }
         }
     }
 
@@ -145,6 +159,19 @@ class MainActivity : AppCompatActivity() {
         helper.attachToRecyclerView(mRecyclerView)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_menu, menu)
+
+        val switchThemeItem = menu?.findItem(R.id.switch_theme_item)
+        switchThemeItem?.setActionView(R.layout.day_night_item_layout)
+        switchThemeItem?.actionView?.setOnClickListener {
+            Toast.makeText(this, "day_night layout clicked", Toast.LENGTH_SHORT).show()
+            it.switch_to_night.visibility = View.GONE
+            it.switch_to_day.visibility = View.VISIBLE
+        }
+        return true
+    }
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         val input = search_edit_text.text.toString()
@@ -157,90 +184,11 @@ class MainActivity : AppCompatActivity() {
         search_edit_text.setText(input)
     }
 
-    // TODO: 03.01.2021 Separate
-    lateinit var currentPhotoPath: String
-    lateinit var savedPhotoUri: Uri
-    lateinit var cacheFile: File
-    private val authority = "ua.maclaren99.pi_android_school_autumn_2020.fileprovider"
-
-    @SuppressLint("SimpleDateFormat")
-    @Throws(IOException::class)
-    private fun createImageFile(isCache: Boolean = false): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = if (isCache) {
-            cacheDir
-        } else {
-            getExternalFilesDir(Environment.DIRECTORY_PICTURES) // filesDir
-        }
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
-
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile().also { cacheFile = it }
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Toast.makeText(this, getString(R.string.cant_find_camera), Toast.LENGTH_LONG)
-                        .show()
-                    null
-                }
-
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        authority,
-                        it
-                    )
-                    savedPhotoUri = photoURI
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_IMAGE_CAPTURE -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    val cropURI = FileProvider.getUriForFile(
-                        this,
-                        authority,
-                        createImageFile()
-                    )
-                    UCrop.of(savedPhotoUri, cropURI)
-                        .withMaxResultSize(600, 600)
-                        .start(this);
-                } else {
-                    cacheFile.delete()
-                }
-            }
-            UCrop.REQUEST_CROP -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    Toast.makeText(this, "Croped successful", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Crop failed", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String?>, grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_LOCATION_PERMISSION ->             // If the permission is granted, get the location,
                 // otherwise, show a Toast

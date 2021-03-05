@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,64 +21,49 @@
 
     <ImageButton
         android:id="@+id/history_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/def_margin"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_history"
 
         app:layout_constraintBottom_toBottomOf="@id/search_edit_text"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/image_button" />
 
     <ImageButton
         android:id="@+id/my_gallery_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/def_margin"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_baseline_photo_library_24"
 
         app:layout_constraintBottom_toBottomOf="@id/search_edit_text"
-        app:layout_constraintEnd_toEndOf="parent"  />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/image_button" />
 
     <ImageButton
         android:id="@+id/take_photo_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/def_margin"
         android:layout_marginEnd="@dimen/def_margin"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_baseline_add_a_photo_24"
 
         app:layout_constraintBottom_toBottomOf="@id/search_button"
-        app:layout_constraintEnd_toEndOf="parent"  />
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/image_button" />
 
     <ImageButton
         android:id="@+id/favorites_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/def_margin"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_favorite"
 
         app:layout_constraintBottom_toBottomOf="@id/search_button"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/image_button" />
 
     <ImageButton
         android:id="@+id/location_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/def_margin"
-        android:clickable="true"
 
-        android:focusable="true"
         android:src="@drawable/ic_location"
         app:layout_constraintBottom_toBottomOf="@id/search_button"
-        app:layout_constraintStart_toEndOf="@+id/favorites_button" />
+        app:layout_constraintStart_toEndOf="@+id/favorites_button"
+        style="@style/image_button" />
 
     <EditText
         android:id="@+id/search_edit_text"
@@ -96,13 +82,12 @@
 
     <Button
         android:id="@+id/search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/search_button"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
+        style="@style/text_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

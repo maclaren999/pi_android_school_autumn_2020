@@ -6,30 +6,12 @@ import androidx.room.*
 interface PictureDAO {
 
     @Insert
-    fun insertUser(user: User)
-
-    @Insert
     fun insertPicture(picture: Picture)
-
-    @Insert
-    fun insertRequest(request: Request)
 
     @Transaction
     @Query("SELECT * FROM picture_table WHERE ownerLogin = :login")
     fun testGetPicturesOfUser(login: String): List<Picture>
     //TODO("Change return type to Flow")
-
-    @Transaction
-    @Query("SELECT * FROM user_table WHERE login = :login")
-    fun getUserPictures(login: String): UserPictures
-
-    @Transaction
-    @Query("SELECT * FROM user_table")
-    fun getUsersAndPictures(): List<UserPictures>
-
-    @Transaction
-    @Query("SELECT * FROM request_table WHERE ownerLogin = :login ORDER BY time ASC")
-    fun getUserHistory(login: String): List<Request>
 
     @Delete
     fun delete(picture: Picture)
@@ -38,5 +20,5 @@ interface PictureDAO {
     fun deleteAll()
 
     @Query("SELECT * from picture_table ORDER BY ownerLogin ASC")
-    fun getAllWords(): List<Picture>?
+    fun getAllPictures(): List<Picture>?
 }

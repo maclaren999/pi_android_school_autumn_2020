@@ -41,7 +41,7 @@ class FavoritesActivity : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.Main) {
             favoritesList = withContext(Dispatchers.IO) {
-                appDatabase.pictureDAO().getUserPictures(currentUser.login).pictures
+                appDatabase.userDAO().getUserPictures(currentUser.login).pictures
             }
 
             Log.d(ua.maclaren99.pi_android_school_autumn_2020.util.TAG, "initFields: rewriteData()")

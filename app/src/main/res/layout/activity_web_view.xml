@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WebViewActivity"
     android:background="@color/black"
-    >
+    tools:context=".ui.WebViewActivity">
 
     <WebView
         android:id="@+id/web_view_2"
@@ -23,52 +22,40 @@
 
     <ImageButton
         android:id="@+id/history_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/image_button"
         android:layout_marginStart="@dimen/def_margin"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_history"
 
+        android:src="@drawable/ic_history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <ImageButton
         android:id="@+id/add_favorite_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_star_border"
+        style="@style/image_button"
 
+        android:src="@drawable/ic_star_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
         android:id="@+id/add_favorite_filled_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
+        style="@style/image_button"
         android:src="@drawable/ic_star"
 
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/request_string_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="@dimen/def_margin"
         android:textSize="@dimen/normal_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/history_button"
         app:layout_constraintEnd_toStartOf="@id/add_favorite_button"
-
-        />
+        app:layout_constraintStart_toEndOf="@id/history_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,12 +15,11 @@
 
     <Button
         android:id="@+id/flickr_search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:gravity="bottom"
         android:layout_margin="@dimen/def_margin"
         android:text="@string/flickr_search_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/text_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

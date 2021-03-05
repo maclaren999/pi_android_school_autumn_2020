@@ -35,8 +35,7 @@ class LoginActivity : AppCompatActivity() {
             apply()
         }
         currentUser = User(loginStr)
-        AppDatabase.getDatabase(this).pictureDAO()
-            .insertUser(currentUser)
+        AppDatabase.getDatabase(this).userDAO().insertUser(currentUser)
 
         withContext(Dispatchers.Main) {
 
